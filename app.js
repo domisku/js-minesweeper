@@ -17,7 +17,8 @@ function renderGameboard() {
 
     function flagSquare(event) {
       event.preventDefault();
-      event.target.classList.add("flagged");
+      if (event.target.classList.contains('flagged')) event.target.classList.remove('flagged');
+      else if (event.target.classList.contains('hidden')) event.target.classList.add("flagged");
     }
 
     function revealSquare(event) {
