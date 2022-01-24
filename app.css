@@ -29,11 +29,11 @@ body {
 }
 
 .mine {
-    background: red;
+    background: rgb(195, 24, 24);
 }
 
 .one {
-    color: blue;
+    color: rgb(49, 49, 227);
 }
 
 .two {
@@ -41,7 +41,7 @@ body {
 }
 
 .three {
-    color: red;
+    color: rgb(195, 24, 24);
 }
 
 .four-plus {
