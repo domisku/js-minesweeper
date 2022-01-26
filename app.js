@@ -1,24 +1,30 @@
 const gameboardSize = 9;
 const mines = gameboardSize;
-const mineCoords = [];
+let mineCoords = [];
 
 renderGameboard();
 
 function renderGameboard() {
+  const modal = document.getElementById('modal');
+  if (!modal.classList.contains('hidden')) closeModal();
   const gameboard = document.getElementById("gameboard");
+  gameboard.innerHTML = '';
+  mineCoords = [];
   generateMines();
 
   for (let i = 1; i <= gameboardSize ** 2; i++) {
     const gameSquare = document.createElement("div");
-    gameSquare.className = "game-square hidden";
+    gameSquare.className = "game-square hidden-block";
     gameSquare.id = i;
     gameSquare.addEventListener("click", revealSquare);
     gameSquare.addEventListener("contextmenu", flagSquare);
 
     function flagSquare(event) {
       event.preventDefault();
-      if (event.target.classList.contains('flagged')) event.target.classList.remove('flagged');
-      else if (event.target.classList.contains('hidden')) event.target.classList.add("flagged");
+      if (event.target.classList.contains("flagged"))
+        event.target.classList.remove("flagged");
+      else if (event.target.classList.contains("hidden-block"))
+        event.target.classList.add("flagged");
     }
 
     function revealSquare(event) {
@@ -26,27 +32,39 @@ function renderGameboard() {
 
       if (eventClassList.contains("flagged")) return;
 
-      eventClassList.remove("hidden");
+      eventClassList.remove("hidden-block");
       if (eventClassList.contains("mine")) {
-        document
-          .querySelectorAll(".game-square")
-          .forEach((square) => {
-              square.classList.remove("hidden")
-              if (square.classList.contains("flagged")) square.classList.remove("flagged");
-            });
+        document.querySelectorAll(".game-square").forEach((square) => {
+          square.classList.remove("hidden-block");
+          if (square.classList.contains("flagged"))
+            square.classList.remove("flagged");
+        });
+        showModal('You lost!');
       }
 
       if (event.target.textContent === "") revealExtraSquares(i);
+
+      checkIfGameOver();
+
+      function checkIfGameOver() {
+        let counter = 0;
+        document.querySelectorAll(".game-square").forEach((square) => {
+          if (square.classList.contains("hidden-block")) counter++;
+        });
+
+        if (counter === 9) showModal('You won!');
+      }
 
       function revealExtraSquares(i) {
         const squaresToCheck = findSquaresToCheck(i);
         document.querySelectorAll(".game-square").forEach((square) => {
           if (
             squaresToCheck.includes(+square.id) &&
-            square.classList.contains("hidden")
+            square.classList.contains("hidden-block")
           ) {
-            if (square.classList.contains("flagged")) square.classList.remove("flagged");
-            square.classList.remove("hidden");
+            if (square.classList.contains("flagged"))
+              square.classList.remove("flagged");
+            square.classList.remove("hidden-block");
             if (square.textContent === "") {
               revealExtraSquares(parseInt(square.id));
             }
@@ -150,4 +168,36 @@ function generateMines() {
     }
     mineCoords.push(mineCoord);
   }
+}
+
+function showModal(message) {
+  const modal = document.getElementById('modal');
+  const modalOverlay = document.getElementById('modal-overlay');
+
+  modal.classList.remove('hidden');
+  modalOverlay.classList.remove('hidden');
+
+  const msg = document.createElement('h2');
+  const msgText = document.createTextNode(message);
+  msg.appendChild(msgText);
+
+  modal.appendChild(msg);
+
+  const btn = document.createElement('button');
+  btn.className = 'modal__btn';
+  const btnText = document.createTextNode('Play again?');
+  btn.appendChild(btnText);
+
+  btn.addEventListener('click', renderGameboard);
+
+  modal.appendChild(btn);
+}
+
+function closeModal() {
+  const modal = document.getElementById('modal');
+  const modalOverlay = document.getElementById('modal-overlay');
+  modal.innerHTML = '';
+
+  modal.classList.add('hidden');
+  modalOverlay.classList.add('hidden');
 }

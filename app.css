@@ -1,69 +1,120 @@
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background: rgb(0,0,0);
-    background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(85,85,85,1) 50%);
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: rgb(0, 0, 0);
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(85, 85, 85, 1) 50%
+  );
 }
 
 #gameboard {
-    display: grid;
-    grid-template-columns: repeat(9, 1fr);
-    grid-template-rows: repeat(9, 1fr);
-    width: 500px;
-    height: 500px;
-    gap: 1px;
-    user-select: none;
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  grid-template-rows: repeat(9, 1fr);
+  width: 500px;
+  height: 500px;
+  gap: 1px;
+  user-select: none;
 }
 
 .game-square {
-    box-sizing: border-box;
-    border: 2px solid gray;
-    background: lightgray;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 25pt;
-    font-weight: 600;
+  box-sizing: border-box;
+  border: 2px solid gray;
+  background: lightgray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 25pt;
+  font-weight: 600;
 }
 
 .mine {
-    background: rgb(195, 24, 24);
+  background: rgb(195, 24, 24);
 }
 
 .one {
-    color: rgb(49, 49, 227);
+  color: rgb(49, 49, 227);
 }
 
 .two {
-    color: green;
+  color: green;
 }
 
 .three {
-    color: rgb(195, 24, 24);
+  color: rgb(195, 24, 24);
 }
 
 .four-plus {
-    color: brown;
+  color: brown;
 }
 
-.hidden {
-    background: rgb(180, 180, 180);
-    color: rgb(180, 180, 180);
-    border-top: 5px solid rgb(220, 220, 220);
-    border-left: 5px solid rgb(220, 220, 220);;
-    border-right: 5px solid gray;
-    border-bottom: 5px solid gray;
+.hidden-block {
+  background: rgb(180, 180, 180);
+  color: rgb(180, 180, 180);
+  border-top: 5px solid rgb(220, 220, 220);
+  border-left: 5px solid rgb(220, 220, 220);
+  border-right: 5px solid gray;
+  border-bottom: 5px solid gray;
 }
 
 .hidden:active {
-    border: 2px solid gray;
-    background: lightgray;
-    color: lightgray;
+  border: 2px solid gray;
+  background: lightgray;
+  color: lightgray;
 }
 
 .flagged {
-    background-color: black;
-    color: black;
+  background-color: black;
+  color: black;
+}
+
+#modal-overlay {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.312);
+  z-index: 1;
+}
+
+#modal {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: lightgray;
+  z-index: 2;
+  border: 3px solid black;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+#modal.hidden, #modal-overlay.hidden {
+  display: none;
+}
+
+.modal__btn {
+    border-radius: 12px;
+    border: 3px solid black;
+    font-weight: 600;
+    padding: 10px;
+    cursor: pointer;
+    box-shadow: 2px 2px 1px 1px;
+}
+
+.modal__btn:hover {
+    color: white;
+    background: black;
 }
